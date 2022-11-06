@@ -215,3 +215,7 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
 - RotateOutDownRight
 - RotateOutUpLeft
 - RotateOutUpRight
+
+### Zoom Animation
+
+- ZoomIn
