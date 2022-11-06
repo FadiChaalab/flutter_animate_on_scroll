@@ -178,7 +178,7 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
 
 ### Fade Animation
 
-![Fade Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/animations/fade.gif)
+![Fade Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/blob/main/animations/fade.gif)
 - FadeIn
 - FadeInDown
 - FadeInLeft
@@ -192,7 +192,7 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
 
 ### Slide Animation
 
-![Slide Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/animations/slide.gif)
+![Slide Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/blob/main/animations/slide.gif)
 - SlideInDown
 - SlideInLeft
 - SlideInRight
@@ -204,7 +204,7 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
 
 ### Rotate Animation
 
-![Rotate Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/animations/rotate.gif)
+![Rotate Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/blob/main/animations/rotate.gif)
 - RotateIn
 - RotateInDownLeft
 - RotateInDownRight
