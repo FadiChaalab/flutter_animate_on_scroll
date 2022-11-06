@@ -1,4 +1,4 @@
-import 'package:example/src/components/custom_info.dart';
+import './src/components/custom_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate_on_scroll/flutter_animate_on_scroll.dart';
 
