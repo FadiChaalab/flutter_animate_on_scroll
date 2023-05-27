@@ -43,3 +43,6 @@ const double toRad = math.pi / 180.0;
 
 /// Shorthand to convert radians to Degrees. (multiply radians with this value)
 const double toDeg = 180.0 / math.pi;
+
+/// Percentage of visibility of widget
+const double visibility = 1.75;

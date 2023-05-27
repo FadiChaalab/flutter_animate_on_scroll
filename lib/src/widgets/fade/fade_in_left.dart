@@ -90,7 +90,7 @@ class _FadeInLeftState extends State<FadeInLeft>
   _onScroll() {
     if (_isAnimated) return;
     if (context.scrollController.offset >
-        _position.dy - _size.height - context.height / 2) {
+        _position.dy - (_size.height * visibility) - (context.height / 2)) {
       _animate();
     }
   }

@@ -8,7 +8,7 @@ Enables you to create flutter animations on scroll, faster, efficient and with l
 
 ## Getting started
 
-_Note: Make sure to use [SingleChildScrollView] and attach [context.scrollController] to your controller
+**Note:** Make sure to use [SingleChildScrollView] and attach [context.scrollController] to your controller
 
 Put the dependency inside your pubspec.yml and run packages get.
 

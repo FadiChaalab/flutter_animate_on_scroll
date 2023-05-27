@@ -112,10 +112,7 @@ class _SlideOutDownState extends State<SlideOutDown>
           offset: Offset(
             0,
             -(widget.offset ??
-                    MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-                            .size
-                            .height *
-                        2) *
+                    MediaQueryData.fromView(View.of(context)).size.height * 2) *
                 (1 - _animation.value),
           ),
           child: Container(
