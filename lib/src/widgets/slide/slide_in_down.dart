@@ -43,7 +43,8 @@ class SlideInDown extends StatefulWidget {
   State<SlideInDown> createState() => _SlideInDownState();
 }
 
-class _SlideInDownState extends State<SlideInDown> with SingleTickerProviderStateMixin {
+class _SlideInDownState extends State<SlideInDown>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
   final ValueNotifier<Offset> _position = ValueNotifier(Offset.zero);
@@ -69,7 +70,8 @@ class _SlideInDownState extends State<SlideInDown> with SingleTickerProviderStat
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.globalKey.currentContext == null) return;
-      RenderBox renderBox = widget.globalKey.currentContext!.findRenderObject() as RenderBox;
+      RenderBox renderBox =
+          widget.globalKey.currentContext!.findRenderObject() as RenderBox;
       Offset position = renderBox.localToGlobal(Offset.zero);
       _position.value = position;
       _size.value = renderBox.size;
@@ -106,10 +108,13 @@ class _SlideInDownState extends State<SlideInDown> with SingleTickerProviderStat
     final widgetBottom = widgetTop + _size.value.height;
 
     // check direction of scroll to animate
-    bool isScrollingDown = scrollableState.position.userScrollDirection == ScrollDirection.reverse;
-    bool isScrollingUp = scrollableState.position.userScrollDirection == ScrollDirection.forward;
+    bool isScrollingDown =
+        scrollableState.position.userScrollDirection == ScrollDirection.reverse;
+    bool isScrollingUp =
+        scrollableState.position.userScrollDirection == ScrollDirection.forward;
     // Check if the widget is within the viewport
-    bool isInView = scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop;
+    bool isInView = scrollPosition < widgetBottom &&
+        (scrollPosition + viewportDimension) > widgetTop;
 
     // Handle animation based on visibility and scroll direction
     if (widget.repeat!) {
@@ -146,7 +151,11 @@ class _SlideInDownState extends State<SlideInDown> with SingleTickerProviderStat
         return Transform.translate(
           offset: Offset(
             0,
-            -(widget.offset ?? (context.height - _position.value.dy - _size.value.height)) * (1 - _animation.value),
+            -(widget.offset ??
+                    (context.height -
+                        _position.value.dy -
+                        _size.value.height)) *
+                (1 - _animation.value),
           ),
           child: Container(
             key: widget.globalKey,

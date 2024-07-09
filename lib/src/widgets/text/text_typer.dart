@@ -58,7 +58,8 @@ class TextTyperAnimation extends StatefulWidget {
   State<TextTyperAnimation> createState() => _TextTyperAnimationState();
 }
 
-class _TextTyperAnimationState extends State<TextTyperAnimation> with SingleTickerProviderStateMixin {
+class _TextTyperAnimationState extends State<TextTyperAnimation>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<int> _animation;
   final ValueNotifier<Offset> _position = ValueNotifier(Offset.zero);
@@ -76,14 +77,16 @@ class _TextTyperAnimationState extends State<TextTyperAnimation> with SingleTick
       duration: widget.duration ?? 2.seconds,
     );
 
-    _animation = StepTween(begin: 0, end: widget.text.length).animate(_animationController)
+    _animation = StepTween(begin: 0, end: widget.text.length)
+        .animate(_animationController)
       ..addListener(() {
         _textLength.value = _animation.value;
       });
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.globalKey.currentContext == null) return;
-      RenderBox renderBox = widget.globalKey.currentContext!.findRenderObject() as RenderBox;
+      RenderBox renderBox =
+          widget.globalKey.currentContext!.findRenderObject() as RenderBox;
       Offset position = renderBox.localToGlobal(Offset.zero);
       _position.value = position;
       _size.value = renderBox.size;
@@ -120,10 +123,13 @@ class _TextTyperAnimationState extends State<TextTyperAnimation> with SingleTick
     final widgetBottom = widgetTop + _size.value.height;
 
     // check direction of scroll to animate
-    bool isScrollingDown = scrollableState.position.userScrollDirection == ScrollDirection.reverse;
-    bool isScrollingUp = scrollableState.position.userScrollDirection == ScrollDirection.forward;
+    bool isScrollingDown =
+        scrollableState.position.userScrollDirection == ScrollDirection.reverse;
+    bool isScrollingUp =
+        scrollableState.position.userScrollDirection == ScrollDirection.forward;
     // Check if the widget is within the viewport
-    bool isInView = scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop;
+    bool isInView = scrollPosition < widgetBottom &&
+        (scrollPosition + viewportDimension) > widgetTop;
 
     // Handle animation based on visibility and scroll direction
     if (widget.repeat!) {
@@ -165,7 +171,8 @@ class _TextTyperAnimationState extends State<TextTyperAnimation> with SingleTick
           child: widget.fade == false
               ? Text(
                   visibleText,
-                  style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
+                  style: widget.textStyle ??
+                      Theme.of(context).textTheme.bodyMedium,
                   textAlign: widget.textAlign ?? TextAlign.start,
                   overflow: widget.overflow ?? TextOverflow.clip,
                 )
@@ -173,13 +180,15 @@ class _TextTyperAnimationState extends State<TextTyperAnimation> with SingleTick
                   textAlign: widget.textAlign ?? TextAlign.start,
                   overflow: widget.overflow ?? TextOverflow.clip,
                   text: TextSpan(
-                    style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
+                    style: widget.textStyle ??
+                        Theme.of(context).textTheme.bodyMedium,
                     children: [
                       TextSpan(text: visibleText), // Fully visible text
                       TextSpan(
                         text: remainingText,
                         style: TextStyle(
-                          color: (widget.textStyle?.color ?? Colors.black).withOpacity(widget.opacity ?? 0.5),
+                          color: (widget.textStyle?.color ?? Colors.black)
+                              .withOpacity(widget.opacity ?? 0.5),
                         ),
                       ), // Half transparent text
                     ],

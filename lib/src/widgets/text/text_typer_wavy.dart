@@ -54,7 +54,8 @@ class TextTyperWavyAnimation extends StatefulWidget {
   State<TextTyperWavyAnimation> createState() => _TextTyperWavyAnimationState();
 }
 
-class _TextTyperWavyAnimationState extends State<TextTyperWavyAnimation> with SingleTickerProviderStateMixin {
+class _TextTyperWavyAnimationState extends State<TextTyperWavyAnimation>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late List<Animation<double>> _animations;
   final ValueNotifier<int> _textLength = ValueNotifier(0);
@@ -87,7 +88,8 @@ class _TextTyperWavyAnimationState extends State<TextTyperWavyAnimation> with Si
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.globalKey.currentContext == null) return;
-      RenderBox renderBox = widget.globalKey.currentContext!.findRenderObject() as RenderBox;
+      RenderBox renderBox =
+          widget.globalKey.currentContext!.findRenderObject() as RenderBox;
       Offset position = renderBox.localToGlobal(Offset.zero);
       _position.value = position;
       _size.value = renderBox.size;
@@ -123,9 +125,12 @@ class _TextTyperWavyAnimationState extends State<TextTyperWavyAnimation> with Si
     final widgetTop = _position.value.dy;
     final widgetBottom = widgetTop + _size.value.height;
 
-    bool isScrollingDown = scrollableState.position.userScrollDirection == ScrollDirection.reverse;
-    bool isScrollingUp = scrollableState.position.userScrollDirection == ScrollDirection.forward;
-    bool isInView = scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop;
+    bool isScrollingDown =
+        scrollableState.position.userScrollDirection == ScrollDirection.reverse;
+    bool isScrollingUp =
+        scrollableState.position.userScrollDirection == ScrollDirection.forward;
+    bool isInView = scrollPosition < widgetBottom &&
+        (scrollPosition + viewportDimension) > widgetTop;
 
     if (widget.repeat!) {
       if (isInView && !_isInView && isScrollingDown) {
@@ -167,11 +172,15 @@ class _TextTyperWavyAnimationState extends State<TextTyperWavyAnimation> with Si
               textAlign: widget.textAlign ?? TextAlign.start,
               overflow: widget.overflow ?? TextOverflow.clip,
               text: TextSpan(
-                style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
+                style:
+                    widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
                 children: List.generate(widget.text.length, (index) {
                   return WidgetSpan(
                     child: Transform.translate(
-                      offset: Offset(0, -(widget.offset ?? 30.0) * (1 - _animations[index].value)),
+                      offset: Offset(
+                          0,
+                          -(widget.offset ?? 30.0) *
+                              (1 - _animations[index].value)),
                       child: Text(widget.text[index]),
                     ),
                   );

@@ -26,13 +26,16 @@ extension NumDurationExtensions on num {
   Duration get seconds => Duration(microseconds: (this * 1000 * 1000).round());
 
   /// get minutes using num directly
-  Duration get minutes => Duration(microseconds: (this * 1000 * 1000 * 60).round());
+  Duration get minutes =>
+      Duration(microseconds: (this * 1000 * 1000 * 60).round());
 
   /// get hours using num directly
-  Duration get hours => Duration(microseconds: (this * 1000 * 1000 * 60 * 60).round());
+  Duration get hours =>
+      Duration(microseconds: (this * 1000 * 1000 * 60 * 60).round());
 
   /// get days using num directly
-  Duration get days => Duration(microseconds: (this * 1000 * 1000 * 60 * 60 * 24).round());
+  Duration get days =>
+      Duration(microseconds: (this * 1000 * 1000 * 60 * 60 * 24).round());
 }
 
 /// Shorthand to convert degrees to Radians. (multiply degrees with this value)

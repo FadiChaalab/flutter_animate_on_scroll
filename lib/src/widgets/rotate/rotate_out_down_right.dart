@@ -43,7 +43,8 @@ class RotateOutDownRight extends StatefulWidget {
   State<RotateOutDownRight> createState() => _RotateOutDownRightState();
 }
 
-class _RotateOutDownRightState extends State<RotateOutDownRight> with SingleTickerProviderStateMixin {
+class _RotateOutDownRightState extends State<RotateOutDownRight>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
   final ValueNotifier<Offset> _position = ValueNotifier(Offset.zero);
@@ -69,7 +70,8 @@ class _RotateOutDownRightState extends State<RotateOutDownRight> with SingleTick
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.globalKey.currentContext == null) return;
-      RenderBox renderBox = widget.globalKey.currentContext!.findRenderObject() as RenderBox;
+      RenderBox renderBox =
+          widget.globalKey.currentContext!.findRenderObject() as RenderBox;
       Offset position = renderBox.localToGlobal(Offset.zero);
       _position.value = position;
       _size.value = renderBox.size;
@@ -106,10 +108,13 @@ class _RotateOutDownRightState extends State<RotateOutDownRight> with SingleTick
     final widgetBottom = widgetTop + _size.value.height;
 
     // check direction of scroll to animate
-    bool isScrollingDown = scrollableState.position.userScrollDirection == ScrollDirection.reverse;
-    bool isScrollingUp = scrollableState.position.userScrollDirection == ScrollDirection.forward;
+    bool isScrollingDown =
+        scrollableState.position.userScrollDirection == ScrollDirection.reverse;
+    bool isScrollingUp =
+        scrollableState.position.userScrollDirection == ScrollDirection.forward;
     // Check if the widget is within the viewport
-    bool isInView = scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop;
+    bool isInView = scrollPosition < widgetBottom &&
+        (scrollPosition + viewportDimension) > widgetTop;
 
     // Handle animation based on visibility and scroll direction
     if (widget.repeat!) {
