@@ -24,8 +24,7 @@ class CustomAnimated extends StatefulWidget {
   State<CustomAnimated> createState() => _CustomAnimatedState();
 }
 
-class _CustomAnimatedState extends State<CustomAnimated>
-    with SingleTickerProviderStateMixin {
+class _CustomAnimatedState extends State<CustomAnimated> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation _animation;
   Offset _position = Offset.zero;
@@ -34,15 +33,15 @@ class _CustomAnimatedState extends State<CustomAnimated>
 
   @override
   void initState() {
+    super.initState();
+
     _animationController = widget.animationController;
+
     _animation = widget.animation;
-    widget.animation.addListener(() {
-      setState(() {});
-    });
+
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.globalKey.currentContext == null) return;
-      RenderBox renderBox =
-          widget.globalKey.currentContext?.findRenderObject() as RenderBox;
+      RenderBox renderBox = widget.globalKey.currentContext!.findRenderObject() as RenderBox;
       Offset position = renderBox.localToGlobal(Offset.zero);
       setState(() {
         _position = position;
@@ -53,13 +52,15 @@ class _CustomAnimatedState extends State<CustomAnimated>
       }
     });
 
-    context.scrollController.addListener(_onScroll);
-    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScrollableState? scrollableState = Scrollable.of(context);
+      scrollableState.position.addListener(_onScroll);
+    });
   }
 
-  _animate() {
+  void _animate() {
     if (!mounted) return;
-    Future.delayed(widget.delay ?? const Duration(milliseconds: 0), () {
+    Future.delayed(widget.delay ?? Duration.zero, () {
       _animationController.forward(from: 0.0);
       setState(() {
         _isAnimated = true;
@@ -67,19 +68,25 @@ class _CustomAnimatedState extends State<CustomAnimated>
     });
   }
 
-  _onScroll() {
+  void _onScroll() {
     if (_isAnimated) return;
-    if (context.scrollController.offset >
-        _position.dy - (_size.height * visibility) - (context.height / 2)) {
+    ScrollableState? scrollableState = Scrollable.of(context);
+    final viewportDimension = scrollableState.position.viewportDimension;
+    final scrollPosition = scrollableState.position.pixels;
+    final widgetTop = _position.dy;
+    final widgetBottom = widgetTop + _size.height;
+
+    // Check if the widget is within the viewport
+    if (scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop) {
       _animate();
     }
   }
 
   @override
   void dispose() {
+    ScrollableState? scrollableState = Scrollable.of(context);
+    scrollableState.position.removeListener(_onScroll);
     _animationController.dispose();
-    context.scrollController.removeListener(_onScroll);
-    context.scrollController.dispose();
     super.dispose();
   }
 

@@ -1,51 +1,63 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
 import '../../utils/utils.dart';
 
-class FadeInDown extends StatefulWidget {
-  /// attach widget to animation child
-  final Widget child;
+class TextTyperWavyAnimation extends StatefulWidget {
+  /// provide text to animate
+  final String text;
 
   /// provide delay duration if need it, by default zero
   final Duration? delay;
 
-  /// provide animation duration if need it, by default 300 milliseconds
+  /// provide animation duration if need it, by default 2 seconds
   final Duration? duration;
 
-  /// provide animation curves if need it, by default [Curves.decelerate]
+  /// provide animation curves if need it, by default [Curves.elasticOut]
   final Curve? curves;
 
   /// require [GlobalKey] to get widget position and size
   final GlobalKey globalKey;
 
-  /// provide offset if need it, by default 50
+  /// provide text style if need it, by default [Theme.of(context).textTheme.bodyMedium]
+  final TextStyle? textStyle;
+
+  /// provide text alignment if need it, by default [TextAlign.start]
+  final TextAlign? textAlign;
+
+  /// provide overflow if need it, by default [TextOverflow.clip]
+  final TextOverflow? overflow;
+
+  /// provide offset if need it, by default [30.0]
   final double? offset;
 
   /// provide repeated animation for widget, by default false
   final bool? repeat;
 
-  const FadeInDown({
+  const TextTyperWavyAnimation({
     super.key,
-    required this.child,
+    required this.text,
     this.delay,
     this.curves,
     this.duration,
     required this.globalKey,
+    this.textStyle,
+    this.textAlign,
+    this.overflow,
     this.offset,
     this.repeat = false,
   });
 
   @override
-  State<FadeInDown> createState() => _FadeInDownState();
+  State<TextTyperWavyAnimation> createState() => _TextTyperWavyAnimationState();
 }
 
-class _FadeInDownState extends State<FadeInDown> with SingleTickerProviderStateMixin {
+class _TextTyperWavyAnimationState extends State<TextTyperWavyAnimation> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation<double> _animation;
+  late List<Animation<double>> _animations;
+  final ValueNotifier<int> _textLength = ValueNotifier(0);
   final ValueNotifier<Offset> _position = ValueNotifier(Offset.zero);
   final ValueNotifier<Size> _size = ValueNotifier(const Size(0, 0));
   final ValueNotifier<bool> _isAnimated = ValueNotifier(false);
@@ -57,15 +69,21 @@ class _FadeInDownState extends State<FadeInDown> with SingleTickerProviderStateM
 
     _animationController = AnimationController(
       vsync: this,
-      duration: widget.duration ?? 300.ms,
+      duration: widget.duration ?? 2.seconds,
     );
 
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: widget.curves ?? Curves.decelerate,
-      ),
-    );
+    _animations = List.generate(widget.text.length, (index) {
+      return Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _animationController,
+          curve: Interval(
+            index / widget.text.length,
+            1.0,
+            curve: widget.curves ?? Curves.elasticOut,
+          ),
+        ),
+      );
+    });
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.globalKey.currentContext == null) return;
@@ -73,7 +91,7 @@ class _FadeInDownState extends State<FadeInDown> with SingleTickerProviderStateM
       Offset position = renderBox.localToGlobal(Offset.zero);
       _position.value = position;
       _size.value = renderBox.size;
-      if (context.height > _position.value.dy) {
+      if (MediaQuery.of(context).size.height > _position.value.dy) {
         _animate(isInView: true);
         _isInView = true;
       }
@@ -105,13 +123,10 @@ class _FadeInDownState extends State<FadeInDown> with SingleTickerProviderStateM
     final widgetTop = _position.value.dy;
     final widgetBottom = widgetTop + _size.value.height;
 
-    // check direction of scroll to animate
     bool isScrollingDown = scrollableState.position.userScrollDirection == ScrollDirection.reverse;
     bool isScrollingUp = scrollableState.position.userScrollDirection == ScrollDirection.forward;
-    // Check if the widget is within the viewport
     bool isInView = scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop;
 
-    // Handle animation based on visibility and scroll direction
     if (widget.repeat!) {
       if (isInView && !_isInView && isScrollingDown) {
         _animate(isScrollingUp: false, isInView: isInView);
@@ -135,23 +150,35 @@ class _FadeInDownState extends State<FadeInDown> with SingleTickerProviderStateM
     _position.dispose();
     _size.dispose();
     _isAnimated.dispose();
+    _textLength.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(0, -(widget.offset ?? 50) * (1 - _animation.value)),
-          child: FadeTransition(
-            opacity: _animation,
-            child: Container(
+    return ValueListenableBuilder<int>(
+      valueListenable: _textLength,
+      builder: (context, textLength, _) {
+        return AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) {
+            return RichText(
               key: widget.globalKey,
-              child: widget.child,
-            ),
-          ),
+              textAlign: widget.textAlign ?? TextAlign.start,
+              overflow: widget.overflow ?? TextOverflow.clip,
+              text: TextSpan(
+                style: widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
+                children: List.generate(widget.text.length, (index) {
+                  return WidgetSpan(
+                    child: Transform.translate(
+                      offset: Offset(0, -(widget.offset ?? 30.0) * (1 - _animations[index].value)),
+                      child: Text(widget.text[index]),
+                    ),
+                  );
+                }),
+              ),
+            );
+          },
         );
       },
     );

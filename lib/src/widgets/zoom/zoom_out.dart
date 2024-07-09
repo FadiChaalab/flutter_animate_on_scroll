@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 
 import '../../utils/utils.dart';
 
-class FadeInDown extends StatefulWidget {
+class ZoomOut extends StatefulWidget {
   /// attach widget to animation child
   final Widget child;
 
@@ -22,30 +22,32 @@ class FadeInDown extends StatefulWidget {
   /// require [GlobalKey] to get widget position and size
   final GlobalKey globalKey;
 
-  /// provide offset if need it, by default 50
-  final double? offset;
+  /// provide the origin of the animation
+  /// by default it's the center of the widget
+  final Alignment? alignment;
 
   /// provide repeated animation for widget, by default false
   final bool? repeat;
 
-  const FadeInDown({
+  const ZoomOut({
     super.key,
     required this.child,
     this.delay,
     this.curves,
     this.duration,
     required this.globalKey,
-    this.offset,
+    this.alignment,
     this.repeat = false,
   });
 
   @override
-  State<FadeInDown> createState() => _FadeInDownState();
+  State<ZoomOut> createState() => _ZoomOutState();
 }
 
-class _FadeInDownState extends State<FadeInDown> with SingleTickerProviderStateMixin {
+class _ZoomOutState extends State<ZoomOut> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  late Animation<double> _scaleAnimation;
   final ValueNotifier<Offset> _position = ValueNotifier(Offset.zero);
   final ValueNotifier<Size> _size = ValueNotifier(const Size(0, 0));
   final ValueNotifier<bool> _isAnimated = ValueNotifier(false);
@@ -60,7 +62,14 @@ class _FadeInDownState extends State<FadeInDown> with SingleTickerProviderStateM
       duration: widget.duration ?? 300.ms,
     );
 
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: widget.curves ?? Curves.decelerate,
+      ),
+    );
+
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: widget.curves ?? Curves.decelerate,
@@ -143,10 +152,11 @@ class _FadeInDownState extends State<FadeInDown> with SingleTickerProviderStateM
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(0, -(widget.offset ?? 50) * (1 - _animation.value)),
-          child: FadeTransition(
-            opacity: _animation,
+        return FadeTransition(
+          opacity: _animation,
+          child: Transform.scale(
+            scale: _scaleAnimation.value,
+            alignment: widget.alignment ?? Alignment.center,
             child: Container(
               key: widget.globalKey,
               child: widget.child,
