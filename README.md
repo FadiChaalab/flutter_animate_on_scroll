@@ -177,7 +177,7 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
 ## Video Demo
 
 <video width="320" height="240" controls>
-  <source src="https://raw.githubusercontent.com/FadiChaalab/flutter_animate_on_scroll/main/assets/nft-example.mp4" type="video/mp4">
+  <source src="https://raw.githubusercontent.com/FadiChaalab/flutter_animate_on_scroll/main/animations/nft-example.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
