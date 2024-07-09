@@ -174,11 +174,6 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
 
 ```
 
-## Video Demo
-
-[![Watch the video](https://raw.githubusercontent.com/FadiChaalab/flutter_animate_on_scroll/main/animations/thumbnail.jpg)](https://raw.githubusercontent.com/FadiChaalab/flutter_animate_on_scroll/main/animations/nft-example.mp4)
-
-
 ## Default Animations
 
 ### Fade Animation
