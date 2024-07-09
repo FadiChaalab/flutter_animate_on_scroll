@@ -19,4 +19,4 @@
 
 ## 0.1.1
 
-- Optimized scroll animation behaviour for custom animation
+- Optimized scroll animation behaviour for custom animations
