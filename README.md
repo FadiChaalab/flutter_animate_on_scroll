@@ -219,3 +219,9 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
 ### Zoom Animation
 
 - ZoomIn
+- ZoomOut
+
+### Text Animation
+
+- Text typer animation with fade option
+- Text wavy effect
