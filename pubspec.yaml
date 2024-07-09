@@ -1,6 +1,6 @@
 name: flutter_animate_on_scroll
 description: Flutter package for animating widgets based on scroll events. Effortlessly create captivating, interactive scroll-based animations to enhance your UI.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/FadiChaalab/flutter_animate_on_scroll
 
 environment:

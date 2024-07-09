@@ -16,3 +16,7 @@
 - Optimized scroll animation behaviour
 - Added ZoomOut animation
 - Added Text animation (typer effect with optional fade, wavy effect)
+
+## 0.1.1
+
+- Optimized scroll animation behaviour for custom animation
