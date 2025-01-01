@@ -1,0 +1,27 @@
+<svg width="40.000000" height="40.000000" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip2_5096">
+			<rect id="SVG" width="40.000000" height="40.000000" fill="white" fill-opacity="0"/>
+		</clipPath>
+		<linearGradient x1="22.000000" y1="11.000000" x2="22.000000" y2="35.000000" id="paint_linear_2_5097_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" stop-opacity="0.000000"/>
+			<stop offset="1.000000" stop-color="#FFFFFF"/>
+		</linearGradient>
+	</defs>
+	<g clip-path="url(#clip2_5096)">
+		<path id="Vector" d="M29.2 11L10.79 11C10.05 11 9.34 11.28 8.82 11.78C8.29 12.28 8 12.95 8 13.66L8 29.33C8 30.04 8.29 30.71 8.82 31.21C9.34 31.71 10.05 32 10.79 32L29.2 32C29.94 32 30.65 31.71 31.17 31.21C31.7 30.71 32 30.04 32 29.33L32 13.66C32 12.95 31.7 12.28 31.17 11.78C30.65 11.28 29.94 11 29.2 11Z" fill="url(#paint_linear_2_5097_0)" fill-opacity="0.240000" fill-rule="nonzero"/>
+		<path id="Vector" d="M10.79 11C10.05 11 9.34 11.28 8.82 11.78C8.29 12.28 8 12.95 8 13.66L8 29.33C8 30.04 8.29 30.71 8.82 31.21C9.34 31.71 10.05 32 10.79 32L29.2 32C29.94 32 30.65 31.71 31.17 31.21C31.7 30.71 32 30.04 32 29.33L32 13.66C32 12.95 31.7 12.28 31.17 11.78C30.65 11.28 29.94 11 29.2 11L10.79 11Z" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round"/>
+		<path id="Vector" d="M8 14C8 13.2 8.29 12.44 8.82 11.87C9.34 11.31 10.05 11 10.79 11L29.2 11C29.94 11 30.65 11.31 31.17 11.87C31.7 12.44 32 13.2 32 14L32 15L8 15L8 14Z" fill="#FFFFFF" fill-opacity="0.500000" fill-rule="nonzero"/>
+		<path id="Vector" d="M8.82 11.87C9.34 11.31 10.05 11 10.79 11L29.2 11C29.94 11 30.65 11.31 31.17 11.87C31.7 12.44 32 13.2 32 14L32 15L8 15L8 14C8 13.2 8.29 12.44 8.82 11.87Z" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000"/>
+		<path id="Vector" d="M12 8L12 11M28 8L28 11" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linecap="round"/>
+		<path id="Vector" d="M13 21L13 19L15 19L15 21L13 21ZM13 27L13 25L15 25L15 27L13 27ZM19 21L19 19L21 19L21 21L19 21ZM19 27L19 25L21 25L21 27L19 27Z" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="nonzero"/>
+		<path id="Vector" d="M13 19L15 19L15 21L13 21L13 19ZM13 25L15 25L15 27L13 27L13 25ZM19 19L21 19L21 21L19 21L19 19ZM19 25L21 25L21 27L19 27L19 25Z" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round"/>
+		<g opacity="0.400000">
+			<path id="Vector" d="M25 21L25 19L27 19L27 21L25 21Z" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="nonzero"/>
+			<path id="Vector" d="M25 19L27 19L27 21L25 21L25 19Z" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round"/>
+		</g>
+	</g>
+</svg>

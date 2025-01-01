@@ -1,0 +1,24 @@
+<svg width="40.000000" height="40.000000" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip2_4439">
+			<rect id="SVG" width="40.000000" height="40.000000" fill="white" fill-opacity="0"/>
+		</clipPath>
+		<linearGradient x1="20.000000" y1="9.000000" x2="20.000000" y2="31.000000" id="paint_linear_2_4440_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" stop-opacity="0.000000"/>
+			<stop offset="1.000000" stop-color="#FFFFFF"/>
+		</linearGradient>
+	</defs>
+	<g clip-path="url(#clip2_4439)">
+		<path id="Vector" d="M9.87 9.87C10.44 9.31 11.2 9 12 9L13 9C13.55 9 14 9.44 14 10L14 14C14 14.55 14.44 15 15 15L21 15C21.55 15 22 14.55 22 14L22 10C22 9.44 22.44 9 23 9L25 9L29.82 13.82C30.57 14.57 31 15.59 31 16.65L31 28C31 28.79 30.68 29.55 30.12 30.12C29.55 30.68 28.79 31 28 31L12 31C10.34 31 9 29.65 9 28L9 12C9 11.2 9.31 10.44 9.87 9.87Z" fill="url(#paint_linear_2_4440_0)" fill-opacity="0.240000" fill-rule="nonzero"/>
+		<path id="Vector" d="M9 18L9 12C9 11.2 9.31 10.44 9.87 9.87C10.44 9.31 11.2 9 12 9L13 9C13.55 9 14 9.44 14 10L14 14C14 14.55 14.44 15 15 15L21 15C21.55 15 22 14.55 22 14L22 10C22 9.44 22.44 9 23 9L24.17 9C24.7 9 25.21 9.21 25.58 9.58L29.82 13.82C30.57 14.57 31 15.59 31 16.65L31 21L31 28C31 28.79 30.68 29.55 30.12 30.12C29.55 30.68 28.79 31 28 31L23 31" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+		<path id="Vector" d="M9 29.25C13.25 29.25 13.25 24 13.25 24C13.25 24 13.25 29.25 17.5 29.25C13.25 29.25 13.25 34.5 13.25 34.5C13.25 34.5 13.25 29.25 9 29.25Z" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="nonzero"/>
+		<path id="Vector" d="M5 24.25C7.25 24.25 7.25 22 7.25 22C7.25 22 7.25 24.25 9.5 24.25C7.25 24.25 7.25 26.5 7.25 26.5C7.25 26.5 7.25 24.25 5 24.25Z" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="nonzero"/>
+		<path id="Vector" d="M7 32.5L7 32.5M17.5 22L17.5 22M17.5 34.5L17.5 34.5M9 29.25C13.25 29.25 13.25 34.5 13.25 34.5C13.25 34.5 13.25 29.25 17.5 29.25C13.25 29.25 13.25 24 13.25 24C13.25 24 13.25 29.25 9 29.25ZM5 24.25C7.25 24.25 7.25 26.5 7.25 26.5C7.25 26.5 7.25 24.25 9.5 24.25C7.25 24.25 7.25 22 7.25 22C7.25 22 7.25 24.25 5 24.25Z" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.500000" stroke-linejoin="round" stroke-linecap="round"/>
+		<g opacity="0.320000">
+			<path id="Vector" d="M18.5 9L19.5 9C19.77 9 20 9.22 20 9.5L20 12.5C20 12.77 19.77 13 19.5 13L18.5 13C18.22 13 18 12.77 18 12.5L18 9.5C18 9.22 18.22 9 18.5 9Z" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="evenodd"/>
+		</g>
+	</g>
+</svg>

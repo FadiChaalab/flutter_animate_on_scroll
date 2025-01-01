@@ -8,13 +8,11 @@ Enables you to create flutter animations on scroll, faster, efficient and with l
 
 ## Getting started
 
-**Note:** Make sure to use [SingleChildScrollView] and attach [context.scrollController] to your controller
-
 Put the dependency inside your pubspec.yml and run packages get.
 
 ## Usage
 
-Provide required [GlobaleKey] and child [Widget], you can play with animation delay, curves, duration...
+Provide required child [Widget], you can play with animation delay, curves, duration...
 
 ```dart
 import './src/components/custom_info.dart';
@@ -33,69 +31,78 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        controller: context.scrollController,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 80),
           child: Column(
             children: [
               FadeIn(
-                globalKey: GlobalKey(),
-                child: const CustomInfo(name: 'Fade In'),
+                config: BaseAnimationConfig(
+                  child: const CustomInfo(name: 'Fade In')
+                ),
               ),
               const SizedBox(height: 20),
               FadeInDown(
-                globalKey: GlobalKey(),
-                delay: 200.ms,
-                child: const CustomInfo(name: 'Fade In Down'),
+                config: BaseAnimationConfig(
+                  delay: 200.ms,
+                  child: const CustomInfo(name: 'Fade In Down'),
+                ),
               ),
               const SizedBox(height: 20),
               FadeInUp(
-                globalKey: GlobalKey(),
-                delay: 400.ms,
-                child: const CustomInfo(name: 'Fade In Up'),
+                config: BaseAnimationConfig(
+                  delay: 400.ms,
+                  child: const CustomInfo(name: 'Fade In Up'),
+                ),
               ),
               const SizedBox(height: 20),
               FadeInLeft(
-                globalKey: GlobalKey(),
-                delay: 600.ms,
-                child: const CustomInfo(name: 'Fade In Left'),
+                config: BaseAnimationConfig(
+                  delay: 600.ms,
+                  child: const CustomInfo(name: 'Fade In Left'),
+                ),
               ),
               const SizedBox(height: 20),
               FadeInRight(
-                globalKey: GlobalKey(),
-                delay: 200.ms,
-                child: const CustomInfo(name: 'Fade In Right'),
+                config: BaseAnimationConfig(
+                  delay: 200.ms,
+                  child: const CustomInfo(name: 'Fade In Right'),
+                ),
               ),
               const SizedBox(height: 20),
               const Divider(),
               FadeOut(
-                globalKey: GlobalKey(),
-                delay: 400.ms,
-                child: const CustomInfo(name: 'Fade Out'),
+                config: BaseAnimationConfig(
+                  delay: 400.ms,
+                  child: const CustomInfo(name: 'Fade Out'),
+                ),
               ),
               const SizedBox(height: 20),
               FadeOutUp(
-                globalKey: GlobalKey(),
-                delay: 600.ms,
-                child: const CustomInfo(name: 'Fade Out Up'),
+                config: BaseAnimationConfig(
+                  delay: 600.ms,
+                  child: const CustomInfo(name: 'Fade Out Up'),
+                ),
               ),
               const SizedBox(height: 20),
               FadeOutDown(
-                globalKey: GlobalKey(),
-                delay: 800.ms,
-                child: const CustomInfo(name: 'Fade Out Down'),
+                config: BaseAnimationConfig(
+                  delay: 800.ms,
+                  child: const CustomInfo(name: 'Fade Out Down'),
+                ),
               ),
               const SizedBox(height: 20),
               FadeOutLeft(
-                globalKey: GlobalKey(),
-                delay: 400.ms,
-                child: const CustomInfo(name: 'Fade Out Left'),
+                config: BaseAnimationConfig(
+                  delay: 400.ms,
+                  child: const CustomInfo(name: 'Fade Out Left'),
+                ),
               ),
               const SizedBox(height: 20),
               FadeOutRight(
-                globalKey: GlobalKey(),
-                delay: 600.ms,
-                child: const CustomInfo(name: 'Fade Out Right'),
+                config: BaseAnimationConfig(
+                  delay: 600.ms,
+                  child: const CustomInfo(name: 'Fade Out Right'),
+                ),
               ),
               const SizedBox(height: 220),
             ],
@@ -147,7 +154,6 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        controller: context.scrollController,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 80),
           child: Column(
@@ -155,7 +161,6 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
               CustomAnimated(
                 animationController: _animationController,
                 animation: _animation,
-                globalKey: GlobalKey(),
                 child: ScaleTransition(
                   scale: _animation,
                   child: const CustomInfo(name: 'Custom Animation'),
@@ -182,7 +187,7 @@ https://github.com/FadiChaalab/flutter_animate_on_scroll/assets/58008170/25ed91f
 
 ### Fade Animation
 
-![Fade Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/blob/main/animations/fade.gif)
+![Fade Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/raw/main/animations/fade.gif)
 - FadeIn
 - FadeInDown
 - FadeInLeft
@@ -196,7 +201,7 @@ https://github.com/FadiChaalab/flutter_animate_on_scroll/assets/58008170/25ed91f
 
 ### Slide Animation
 
-![Slide Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/blob/main/animations/slide.gif)
+![Slide Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/raw/main/animations/slide.gif)
 - SlideInDown
 - SlideInLeft
 - SlideInRight
@@ -208,7 +213,7 @@ https://github.com/FadiChaalab/flutter_animate_on_scroll/assets/58008170/25ed91f
 
 ### Rotate Animation
 
-![Rotate Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/blob/main/animations/rotate.gif)
+![Rotate Animation](https://github.com/FadiChaalab/flutter_animate_on_scroll/raw/main/animations/rotate.gif)
 - RotateIn
 - RotateInDownLeft
 - RotateInDownRight

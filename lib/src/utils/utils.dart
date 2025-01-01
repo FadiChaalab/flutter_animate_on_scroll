@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-final ScrollController _scrollController = ScrollController();
-
 extension BuildContextExtensions on BuildContext {
   /// get screen height using context directly
   double get height => MediaQuery.sizeOf(this).height;
 
   /// get screen width using context directly
   double get width => MediaQuery.sizeOf(this).width;
-
-  /// get scrollcontroller using context directly
-  ScrollController get scrollController => _scrollController;
 }
 
 extension NumDurationExtensions on num {
@@ -26,16 +21,13 @@ extension NumDurationExtensions on num {
   Duration get seconds => Duration(microseconds: (this * 1000 * 1000).round());
 
   /// get minutes using num directly
-  Duration get minutes =>
-      Duration(microseconds: (this * 1000 * 1000 * 60).round());
+  Duration get minutes => Duration(microseconds: (this * 1000 * 1000 * 60).round());
 
   /// get hours using num directly
-  Duration get hours =>
-      Duration(microseconds: (this * 1000 * 1000 * 60 * 60).round());
+  Duration get hours => Duration(microseconds: (this * 1000 * 1000 * 60 * 60).round());
 
   /// get days using num directly
-  Duration get days =>
-      Duration(microseconds: (this * 1000 * 1000 * 60 * 60 * 24).round());
+  Duration get days => Duration(microseconds: (this * 1000 * 1000 * 60 * 60 * 24).round());
 }
 
 /// Shorthand to convert degrees to Radians. (multiply degrees with this value)

@@ -20,7 +20,7 @@ class CustomInfo extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.25),
+            color: Colors.black.withValues(alpha: 0.25),
             offset: const Offset(0, 38),
             spreadRadius: -17,
             blurRadius: 98,

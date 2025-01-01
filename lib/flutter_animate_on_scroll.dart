@@ -1,6 +1,7 @@
 library flutter_animate_on_scroll;
 
 export './src/utils/utils.dart';
+export './src/config/config.dart';
 export 'src/widgets/custom_animated_scroll.dart';
 export './src/widgets/fade/fade.dart';
 export './src/widgets/slide/slide.dart';

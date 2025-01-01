@@ -1,3 +1,5 @@
+import 'package:example/src/screens/basic_example.dart';
+
 import './src/components/custom_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate_on_scroll/flutter_animate_on_scroll.dart';
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Poppins',
       ),
-      home: const MyHomePage(),
+      home: const BasicExamples(),
     );
   }
 }
@@ -35,108 +37,120 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        controller: context.scrollController,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 80),
           child: Column(
             children: [
               const SizedBox(height: 120),
               FadeIn(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Fade In'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Fade In'),
+                ),
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 120),
               SlideInDown(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Slide In Down'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Slide In Down'),
+                ),
               ),
               const SizedBox(height: 80),
               RotateInUpLeft(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Rotate In Up Left'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Rotate In Up Left'),
+                ),
               ),
               const SizedBox(height: 80),
               FadeInLeft(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Fade In Left'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Fade In Left'),
+                ),
               ),
               const SizedBox(height: 80),
               ZoomIn(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Zoom In'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Zoom In'),
+                ),
               ),
               const SizedBox(height: 80),
               TextTyperAnimation(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 4.seconds,
-                text: 'Exploring the world of Flutter On Scroll Animation without fade effect',
-                curves: Curves.easeInOut,
-                textAlign: TextAlign.center,
+                config: BaseTextAnimationConfig(
+                  repeat: true,
+                  duration: 4.seconds,
+                  text: 'Exploring the world of Flutter On Scroll Animation without fade effect',
+                  curves: Curves.easeInOut,
+                  textAlign: TextAlign.center,
+                ),
                 fade: false,
               ),
               const SizedBox(height: 80),
               TextTyperAnimation(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 4.seconds,
-                text: 'Exploring the world of Flutter On Scroll Animation with fade effect',
-                curves: Curves.easeInOut,
+                config: BaseTextAnimationConfig(
+                  repeat: true,
+                  duration: 4.seconds,
+                  text: 'Exploring the world of Flutter On Scroll Animation with fade effect',
+                  curves: Curves.easeInOut,
+                ),
                 fade: true,
               ),
               const SizedBox(height: 80),
               TextTyperWavyAnimation(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 4.seconds,
-                text: 'Exploring the world of Flutter On Scroll Animation with wavy effect',
-                curves: Curves.easeInOut,
+                config: BaseTextAnimationConfig(
+                  repeat: true,
+                  duration: 4.seconds,
+                  text: 'Exploring the world of Flutter On Scroll Animation with wavy effect',
+                  curves: Curves.easeInOut,
+                ),
               ),
               const SizedBox(height: 80),
               const Divider(),
               FadeOut(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Fade Out'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Fade Out'),
+                ),
               ),
               const SizedBox(height: 80),
               SlideOutUp(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Slide Out Up'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Slide Out Up'),
+                ),
               ),
               const SizedBox(height: 80),
               RotateOutDownLeft(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Rotate Out Down Left'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Rotate Out Down Left'),
+                ),
               ),
               const SizedBox(height: 80),
               FadeOutLeft(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Fade Out Left'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Fade Out Left'),
+                ),
               ),
               const SizedBox(height: 80),
               ZoomOut(
-                globalKey: GlobalKey(),
-                repeat: true,
-                duration: 1.seconds,
-                child: const CustomInfo(name: 'Zoom Out'),
+                config: BaseAnimationConfig(
+                  repeat: true,
+                  duration: 1.seconds,
+                  child: const CustomInfo(name: 'Zoom Out'),
+                ),
               ),
               const SizedBox(height: 420),
             ],

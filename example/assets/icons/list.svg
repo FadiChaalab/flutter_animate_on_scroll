@@ -1,0 +1,33 @@
+<svg width="40.000000" height="40.000000" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip2_4414">
+			<rect id="SVG" width="40.000000" height="40.000000" fill="white" fill-opacity="0"/>
+		</clipPath>
+		<linearGradient x1="20.000000" y1="6.000000" x2="20.000000" y2="34.000000" id="paint_linear_2_4415_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" stop-opacity="0.000000"/>
+			<stop offset="1.000000" stop-color="#FFFFFF"/>
+		</linearGradient>
+		<linearGradient x1="29.000000" y1="22.000000" x2="29.000000" y2="36.000000" id="paint_linear_2_4417_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" stop-opacity="0.000000"/>
+			<stop offset="1.000000" stop-color="#FFFFFF"/>
+		</linearGradient>
+	</defs>
+	<g clip-path="url(#clip2_4414)">
+		<path id="Vector" d="M30.12 6.87C30.68 7.44 31 8.2 31 9L31 21.5L31 22.28C30.36 22.1 29.69 22 29 22C25.13 22 22 25.13 22 29C22 30.95 22.8 32.72 24.1 34L19 34L12 34C11.2 34 10.44 33.68 9.87 33.12C9.31 32.55 9 31.79 9 31L9 9C9 8.2 9.31 7.44 9.87 6.87C10.44 6.31 11.2 6 12 6L28 6C28.79 6 29.55 6.31 30.12 6.87Z" fill="url(#paint_linear_2_4415_0)" fill-opacity="0.240000" fill-rule="nonzero"/>
+		<path id="Vector" d="M31 18L31 9C31 8.2 30.68 7.44 30.12 6.87C29.55 6.31 28.79 6 28 6L12 6C11.2 6 10.44 6.31 9.87 6.87C9.31 7.44 9 8.2 9 9L9 31C9 31.79 9.31 32.55 9.87 33.12C10.44 33.68 11.2 34 12 34L19 34" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+		<path id="Vector" d="M36 29C36 30.71 35.38 32.28 34.36 33.5C33.07 35.02 31.15 36 29 36C25.13 36 22 32.86 22 29C22 25.13 25.13 22 29 22C32.86 22 36 25.13 36 29Z" fill="url(#paint_linear_2_4417_0)" fill-opacity="0.240000" fill-rule="nonzero"/>
+		<path id="Vector" d="M34.36 33.5C33.07 35.02 31.15 36 29 36C25.13 36 22 32.86 22 29C22 25.13 25.13 22 29 22C32.86 22 36 25.13 36 29C36 30.71 35.38 32.28 34.36 33.5Z" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round"/>
+		<path id="Vector" d="M13 17L13 15L27 15L27 17L13 17Z" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="nonzero"/>
+		<path id="Vector" d="M13 15L27 15L27 17L13 17L13 15Z" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round"/>
+		<g opacity="0.400000">
+			<path id="Vector" d="M13 11L27 11" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+		</g>
+		<g opacity="0.400000">
+			<path id="Vector" d="M13 21L20 21" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+		</g>
+		<path id="Vector" d="M26 29L28 31L32 27" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+	</g>
+</svg>

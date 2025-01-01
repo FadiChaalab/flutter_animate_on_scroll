@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
-import '../utils/utils.dart';
-
 class CustomAnimated extends StatefulWidget {
   /// attach widget to animation child
   final Widget child;
@@ -19,11 +17,11 @@ class CustomAnimated extends StatefulWidget {
   /// require [Animation] to use your custom animation
   final Animation animation;
 
-  /// require [GlobalKey] to get widget position and size
-  final GlobalKey globalKey;
-
   /// provide repeated animation for widget, by default false
   final bool? repeat;
+
+  /// provide scroll option to animate widget based on scroll, by default false
+  final bool? useScrollForAnimation;
 
   const CustomAnimated({
     super.key,
@@ -31,21 +29,21 @@ class CustomAnimated extends StatefulWidget {
     this.delay,
     required this.animationController,
     required this.animation,
-    required this.globalKey,
     this.repeat = false,
+    this.useScrollForAnimation = false,
   });
 
   @override
   State<CustomAnimated> createState() => _CustomAnimatedState();
 }
 
-class _CustomAnimatedState extends State<CustomAnimated>
-    with SingleTickerProviderStateMixin {
+class _CustomAnimatedState extends State<CustomAnimated> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation _animation;
-  final ValueNotifier<Offset> _position = ValueNotifier(Offset.zero);
-  final ValueNotifier<Size> _size = ValueNotifier(const Size(0, 0));
-  final ValueNotifier<bool> _isAnimated = ValueNotifier(false);
+  late ScrollableState? _scrollableState;
+  Offset _position = Offset.zero;
+  Size _size = Size(0, 0);
+  bool _isAnimated = false;
   bool _isInView = false;
 
   @override
@@ -57,21 +55,19 @@ class _CustomAnimatedState extends State<CustomAnimated>
     _animation = widget.animation;
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (widget.globalKey.currentContext == null) return;
-      RenderBox renderBox =
-          widget.globalKey.currentContext!.findRenderObject() as RenderBox;
+      if (context.findRenderObject() == null) return;
+      RenderBox renderBox = context.findRenderObject() as RenderBox;
       Offset position = renderBox.localToGlobal(Offset.zero);
-      _position.value = position;
-      _size.value = renderBox.size;
-      if (context.height > _position.value.dy) {
+      _position = position;
+      _size = renderBox.size;
+      final viewportDimension = _scrollableState?.position.viewportDimension ?? 0;
+      final scrollPosition = _scrollableState?.position.pixels ?? 0;
+      final widgetTop = _position.dy;
+      final widgetBottom = widgetTop + _size.height;
+      if (scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop) {
         _animate(isInView: true);
         _isInView = true;
       }
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ScrollableState? scrollableState = Scrollable.of(context);
-      scrollableState.position.addListener(_onScroll);
     });
   }
 
@@ -83,37 +79,46 @@ class _CustomAnimatedState extends State<CustomAnimated>
       } else if (!isScrollingUp && isInView) {
         _animationController.forward(from: 0.0);
       }
-      _isAnimated.value = true;
+      _isAnimated = true;
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scrollableState = Scrollable.maybeOf(context);
+    _scrollableState?.position.addListener(_onScroll);
+  }
+
   void _onScroll() {
-    if (_isAnimated.value && widget.repeat == false) return;
-    ScrollableState? scrollableState = Scrollable.of(context);
-    final viewportDimension = scrollableState.position.viewportDimension;
-    final scrollPosition = scrollableState.position.pixels;
-    final widgetTop = _position.value.dy;
-    final widgetBottom = widgetTop + _size.value.height;
+    if (_isAnimated && widget.repeat == false) return;
+    final viewportDimension = _scrollableState?.position.viewportDimension ?? 0;
+    final scrollPosition = _scrollableState?.position.pixels ?? 0;
+    final widgetTop = _position.dy;
+    final widgetBottom = widgetTop + _size.height;
 
     // check direction of scroll to animate
-    bool isScrollingDown =
-        scrollableState.position.userScrollDirection == ScrollDirection.reverse;
-    bool isScrollingUp =
-        scrollableState.position.userScrollDirection == ScrollDirection.forward;
+    bool isScrollingDown = _scrollableState?.position.userScrollDirection == ScrollDirection.reverse;
+    bool isScrollingUp = _scrollableState?.position.userScrollDirection == ScrollDirection.forward;
     // Check if the widget is within the viewport
-    bool isInView = scrollPosition < widgetBottom &&
-        (scrollPosition + viewportDimension) > widgetTop;
+    bool isInView = scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop;
 
     // Handle animation based on visibility and scroll direction
-    if (widget.repeat!) {
-      if (isInView && !_isInView && isScrollingDown) {
-        _animate(isScrollingUp: false, isInView: isInView);
-      } else if (isInView && !_isInView && isScrollingUp) {
-        _animate(isScrollingUp: true, isInView: isInView);
-      }
+    if (widget.useScrollForAnimation == true) {
+      // Use scroll value to drive animation
+      double progress = ((scrollPosition + viewportDimension - widgetTop) / viewportDimension).clamp(0.0, 1.0);
+      _animationController.value = progress;
     } else {
-      if (isInView && !_isInView) {
-        _animate(isInView: isInView);
+      if (widget.repeat == true) {
+        if (isInView && !_isInView && isScrollingDown) {
+          _animate(isScrollingUp: false, isInView: isInView);
+        } else if (isInView && !_isInView && isScrollingUp) {
+          _animate(isScrollingUp: true, isInView: isInView);
+        }
+      } else {
+        if (isInView && !_isInView) {
+          _animate(isInView: isInView);
+        }
       }
     }
 
@@ -122,12 +127,8 @@ class _CustomAnimatedState extends State<CustomAnimated>
 
   @override
   void dispose() {
-    ScrollableState? scrollableState = Scrollable.of(context);
-    scrollableState.position.removeListener(_onScroll);
+    _scrollableState?.position.removeListener(_onScroll);
     _animationController.dispose();
-    _position.dispose();
-    _size.dispose();
-    _isAnimated.dispose();
     super.dispose();
   }
 
@@ -136,10 +137,7 @@ class _CustomAnimatedState extends State<CustomAnimated>
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        return Container(
-          key: widget.globalKey,
-          child: widget.child,
-        );
+        return widget.child;
       },
     );
   }

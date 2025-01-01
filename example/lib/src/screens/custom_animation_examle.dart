@@ -10,8 +10,7 @@ class CustomAnimationExample extends StatefulWidget {
   State<CustomAnimationExample> createState() => _CustomAnimationExampleState();
 }
 
-class _CustomAnimationExampleState extends State<CustomAnimationExample>
-    with SingleTickerProviderStateMixin {
+class _CustomAnimationExampleState extends State<CustomAnimationExample> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -34,7 +33,6 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        controller: context.scrollController,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 80),
           child: Column(
@@ -42,7 +40,6 @@ class _CustomAnimationExampleState extends State<CustomAnimationExample>
               CustomAnimated(
                 animationController: _animationController,
                 animation: _animation,
-                globalKey: GlobalKey(),
                 child: ScaleTransition(
                   scale: _animation,
                   child: const CustomInfo(name: 'Custom Animation'),

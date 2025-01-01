@@ -20,3 +20,10 @@
 ## 0.1.1
 
 - Optimized scroll animation behaviour for custom animations
+
+## 0.2.0
+
+- Removed the need to attach global keys and scroll controllers.
+- Introduced BaseAnimationConfig and BaseTextAnimationConfig.
+- Fixed a bug (Looking up a deactivated widget's ancestor is unsafe).
+- Updated the README to reflect the new changes.

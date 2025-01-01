@@ -1,0 +1,20 @@
+<svg width="40.000000" height="40.000000" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip2_4394">
+			<rect id="SVG" width="40.000000" height="40.000000" fill="white" fill-opacity="0"/>
+		</clipPath>
+		<linearGradient x1="20.000000" y1="5.599609" x2="20.000000" y2="22.399601" id="paint_linear_2_4396_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" stop-opacity="0.000000"/>
+			<stop offset="1.000000" stop-color="#FFFFFF"/>
+		</linearGradient>
+	</defs>
+	<g clip-path="url(#clip2_4394)">
+		<path id="Vector" d="M20 25.99L20 34.39M11.68 21.19C13.34 24.06 16.44 25.99 20 25.99C23.55 25.99 26.65 24.06 28.31 21.19M14 34.39L26 34.39" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+		<path id="Vector" d="M26 11.59C26 8.28 23.31 5.59 20 5.59C16.68 5.59 14 8.28 14 11.59L14 16.39C14 19.71 16.68 22.39 20 22.39C23.31 22.39 26 19.71 26 16.39L26 11.59Z" fill="url(#paint_linear_2_4396_0)" fill-opacity="0.320000" fill-rule="nonzero"/>
+		<path id="Vector" d="M26 11.59L26 16.39C26 19.71 23.31 22.39 20 22.39C16.68 22.39 14 19.71 14 16.39L14 11.59C14 8.28 16.68 5.59 20 5.59C23.31 5.59 26 8.28 26 11.59Z" stroke="#FFFFFF" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round"/>
+		<path id="Vector" d="M24 14.52L23 14.52L22.39 13.23L21.5 15L20 13L19.1 15L17.89 13.47L17 14.64L16 14.64" stroke="#FFFFFF" stroke-opacity="0.320000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+	</g>
+</svg>
