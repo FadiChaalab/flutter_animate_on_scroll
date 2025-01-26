@@ -1,8 +1,10 @@
-import 'package:example/src/screens/basic_example.dart';
+import 'package:flutter/gestures.dart';
 
 import './src/components/custom_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate_on_scroll/flutter_animate_on_scroll.dart';
+
+import 'src/screens/basic_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +18,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter On Scroll Animation Example',
       debugShowCheckedModeBanner: false,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(dragDevices: {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      }),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Poppins',

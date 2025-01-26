@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../../config/base_text_animation_config.dart';
+import '../../helper/visisibility_detector.dart';
 import '../../utils/utils.dart';
 
 class TextTyperAnimation extends StatefulWidget {
@@ -27,104 +28,114 @@ class TextTyperAnimation extends StatefulWidget {
   State<TextTyperAnimation> createState() => _TextTyperAnimationState();
 }
 
-class _TextTyperAnimationState extends State<TextTyperAnimation> with SingleTickerProviderStateMixin {
+class _TextTyperAnimationState extends State<TextTyperAnimation>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  /// Animation controller, used to control the animation
   late AnimationController _animationController;
+
+  /// Animation, used to animate the text
   late Animation<int> _animation;
-  late ScrollableState? _scrollableState;
-  Offset _position = Offset.zero;
-  Size _size = Size(0, 0);
-  bool _isAnimated = false;
+
+  /// Value notifier, used to notify the text length
   final ValueNotifier<int> _textLength = ValueNotifier(0);
+
+  /// Check if the widget is animated
+  bool _isAnimated = false;
+
+  /// Check if the widget is in view
   bool _isInView = false;
+
+  /// Used to maintain the state of the widget, mainly to maintain the widget state when scrolling
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
 
+    // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
       duration: widget.config.duration ?? 2.seconds,
-    );
+    )..addStatusListener(_handleAnimationStatus);
 
+    // Initialize the text animation
     _animation = StepTween(begin: 0, end: widget.config.text.length).animate(_animationController)
       ..addListener(() {
         _textLength.value = _animation.value;
       });
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (context.findRenderObject() == null) return;
-      RenderBox renderBox = context.findRenderObject() as RenderBox;
-      Offset position = renderBox.localToGlobal(Offset.zero);
-      _position = position;
-      _size = renderBox.size;
-      final viewportDimension = _scrollableState?.position.viewportDimension ?? 0;
-      final scrollPosition = _scrollableState?.position.pixels ?? 0;
-      final widgetTop = _position.dy;
-      final widgetBottom = widgetTop + _size.height;
-      if (scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop) {
-        _animate(isInView: true);
-        _isInView = true;
-      }
-    });
   }
 
-  void _animate({bool isScrollingUp = false, bool isInView = false}) {
-    if (!mounted) return;
-    Future.delayed(widget.config.delay ?? Duration.zero, () {
-      if (isScrollingUp && !isInView) {
-        _animationController.reverse(from: 1.0);
-      } else if (!isScrollingUp && isInView) {
-        _animationController.forward(from: 0.0);
-      }
+  /// Handle the animation status
+  void _handleAnimationStatus(AnimationStatus status) {
+    if (status == AnimationStatus.dismissed) {
+      _isAnimated = false;
+    } else if (status == AnimationStatus.completed) {
       _isAnimated = true;
-    });
+    }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _scrollableState = Scrollable.maybeOf(context);
-    _scrollableState?.position.addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    if (_isAnimated && widget.config.repeat == false) return;
-    final viewportDimension = _scrollableState?.position.viewportDimension ?? 0;
-    final scrollPosition = _scrollableState?.position.pixels ?? 0;
-    final widgetTop = _position.dy;
-    final widgetBottom = widgetTop + _size.height;
-
-    // check direction of scroll to animate
-    bool isScrollingDown = _scrollableState?.position.userScrollDirection == ScrollDirection.reverse;
-    bool isScrollingUp = _scrollableState?.position.userScrollDirection == ScrollDirection.forward;
-    // Check if the widget is within the viewport
-    bool isInView = scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop;
-
-    // Handle animation based on visibility and scroll direction
+  /// Handle the animation
+  void _handleAnimation(VisibilityDetectorInfo info) {
     if (widget.config.useScrollForAnimation == true) {
-      // Use scroll value to drive animation
-      double progress = ((scrollPosition + viewportDimension - widgetTop) / viewportDimension).clamp(0.0, 1.0);
-      _animationController.value = progress;
+      _animateUsingScrollValue(info.visibleFraction);
     } else {
+      if (!_isInView && !info.visible) return;
+
       if (widget.config.repeat == true) {
-        if (isInView && !_isInView && isScrollingDown) {
-          _animate(isScrollingUp: false, isInView: isInView);
-        } else if (isInView && !_isInView && isScrollingUp) {
-          _animate(isScrollingUp: true, isInView: isInView);
+        if (info.canReverse && _animationController.status == AnimationStatus.completed) {
+          // reverse animation
+          // set duration to zero to make it faster
+          _animationController.duration = Duration.zero;
+          _animationController.reverse(from: 1.0);
+        } else if (info.visible && !_isAnimated) {
+          _animateWithoutScrollValue(info);
         }
       } else {
-        if (isInView && !_isInView) {
-          _animate(isInView: isInView);
+        if (info.visible && !_isAnimated) {
+          _animateWithoutScrollValue(info);
         }
       }
     }
+    _isInView = info.visible;
+  }
 
-    _isInView = isInView;
+  void _animateWithoutScrollValue(VisibilityDetectorInfo info) {
+    final delay = info.direction == ScrollDirection.reverse ? Duration.zero : widget.config.delay ?? Duration.zero;
+
+    Future.delayed(delay, () {
+      if (mounted && info.visible && !_isAnimated && info.direction != ScrollDirection.forward) {
+        _animationController.duration = widget.config.duration ?? 2.seconds;
+        _animationController.forward(from: 0.0);
+      }
+    });
+  }
+
+  void _animateUsingScrollValue(double viewFraction) {
+    if (!mounted) return;
+
+    // Apply curve to the visible fraction
+    final curves = widget.config.curves ?? Curves.decelerate;
+    final curvedValue = curves.transform(viewFraction);
+
+    // Use spring simulation for smooth transitions
+    final simulation = SpringSimulation(
+      SpringDescription.withDampingRatio(
+        mass: 0.8,
+        stiffness: 300.0,
+        ratio: 0.6,
+      ),
+      _animationController.value,
+      curvedValue,
+      0,
+    );
+
+    _animationController.animateWith(simulation);
   }
 
   @override
   void dispose() {
-    _scrollableState?.position.removeListener(_onScroll);
+    _animationController.removeStatusListener(_handleAnimationStatus);
     _animationController.dispose();
     _textLength.dispose();
     super.dispose();
@@ -132,36 +143,42 @@ class _TextTyperAnimationState extends State<TextTyperAnimation> with SingleTick
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
         String visibleText = widget.config.text.substring(0, _textLength.value);
         String remainingText = widget.config.text.substring(_textLength.value);
-        return Container(
-          child: widget.fade == false
-              ? Text(
-                  visibleText,
-                  style: widget.config.textStyle ?? Theme.of(context).textTheme.bodyMedium,
-                  textAlign: widget.config.textAlign ?? TextAlign.start,
-                  overflow: widget.config.overflow ?? TextOverflow.clip,
-                )
-              : RichText(
-                  textAlign: widget.config.textAlign ?? TextAlign.start,
-                  overflow: widget.config.overflow ?? TextOverflow.clip,
-                  text: TextSpan(
+        return VisibilityDetector(
+          onVisibilityChanged: (info) {
+            _handleAnimation(info);
+          },
+          child: Container(
+            child: widget.fade == false
+                ? Text(
+                    visibleText,
                     style: widget.config.textStyle ?? Theme.of(context).textTheme.bodyMedium,
-                    children: [
-                      TextSpan(text: visibleText), // Fully visible text
-                      TextSpan(
-                        text: remainingText,
-                        style: TextStyle(
-                          color:
-                              (widget.config.textStyle?.color ?? Colors.black).withValues(alpha: widget.opacity ?? 0.5),
-                        ),
-                      ), // Half transparent text
-                    ],
+                    textAlign: widget.config.textAlign ?? TextAlign.start,
+                    overflow: widget.config.overflow ?? TextOverflow.clip,
+                  )
+                : RichText(
+                    textAlign: widget.config.textAlign ?? TextAlign.start,
+                    overflow: widget.config.overflow ?? TextOverflow.clip,
+                    text: TextSpan(
+                      style: widget.config.textStyle ?? Theme.of(context).textTheme.bodyMedium,
+                      children: [
+                        TextSpan(text: visibleText), // Fully visible text
+                        TextSpan(
+                          text: remainingText,
+                          style: TextStyle(
+                            color: (widget.config.textStyle?.color ?? Colors.black)
+                                .withValues(alpha: widget.opacity ?? 0.5),
+                          ),
+                        ), // Half transparent text
+                      ],
+                    ),
                   ),
-                ),
+          ),
         );
       },
     );

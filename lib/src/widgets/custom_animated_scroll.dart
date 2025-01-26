@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
+
+import '../helper/visisibility_detector.dart';
+import '../utils/utils.dart';
 
 class CustomAnimated extends StatefulWidget {
   /// attach widget to animation child
@@ -17,6 +20,11 @@ class CustomAnimated extends StatefulWidget {
   /// require [Animation] to use your custom animation
   final Animation animation;
 
+  /// provide curve for animation, by default [Curves.decelerate]
+  /// Mainly used for scroll animation to provide smooth animation, when
+  /// using scroll for animation [useScrollForAnimation] is true
+  final Curve? curves;
+
   /// provide repeated animation for widget, by default false
   final bool? repeat;
 
@@ -29,6 +37,7 @@ class CustomAnimated extends StatefulWidget {
     this.delay,
     required this.animationController,
     required this.animation,
+    this.curves,
     this.repeat = false,
     this.useScrollForAnimation = false,
   });
@@ -37,107 +46,128 @@ class CustomAnimated extends StatefulWidget {
   State<CustomAnimated> createState() => _CustomAnimatedState();
 }
 
-class _CustomAnimatedState extends State<CustomAnimated> with SingleTickerProviderStateMixin {
+class _CustomAnimatedState extends State<CustomAnimated>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  /// Animation controller, used to control the animation
   late AnimationController _animationController;
+
+  /// Animation, used to animate the opacity
   late Animation _animation;
-  late ScrollableState? _scrollableState;
-  Offset _position = Offset.zero;
-  Size _size = Size(0, 0);
+
+  /// Check if the widget is animated
   bool _isAnimated = false;
+
+  /// Check if the widget is in view
   bool _isInView = false;
+
+  Duration _duration = Duration.zero;
+
+  /// Used to maintain the state of the widget, mainly to maintain the widget state when scrolling
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-
+    // Initialize the animation controller
     _animationController = widget.animationController;
 
+    // Add status listener to the animation controller
+    _animationController.addStatusListener(_handleAnimationStatus);
+
+    // Initialize the animation
     _animation = widget.animation;
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (context.findRenderObject() == null) return;
-      RenderBox renderBox = context.findRenderObject() as RenderBox;
-      Offset position = renderBox.localToGlobal(Offset.zero);
-      _position = position;
-      _size = renderBox.size;
-      final viewportDimension = _scrollableState?.position.viewportDimension ?? 0;
-      final scrollPosition = _scrollableState?.position.pixels ?? 0;
-      final widgetTop = _position.dy;
-      final widgetBottom = widgetTop + _size.height;
-      if (scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop) {
-        _animate(isInView: true);
-        _isInView = true;
-      }
-    });
+    // Set the duration of the animation
+    _duration = widget.animationController.duration ?? 300.ms;
   }
 
-  void _animate({bool isScrollingUp = false, bool isInView = false}) {
-    if (!mounted) return;
-    Future.delayed(widget.delay ?? Duration.zero, () {
-      if (isScrollingUp && !isInView) {
-        _animationController.reverse(from: 1.0);
-      } else if (!isScrollingUp && isInView) {
-        _animationController.forward(from: 0.0);
-      }
+  /// Handle the animation status
+  void _handleAnimationStatus(AnimationStatus status) {
+    if (status == AnimationStatus.dismissed) {
+      _isAnimated = false;
+    } else if (status == AnimationStatus.completed) {
       _isAnimated = true;
-    });
+    }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _scrollableState = Scrollable.maybeOf(context);
-    _scrollableState?.position.addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    if (_isAnimated && widget.repeat == false) return;
-    final viewportDimension = _scrollableState?.position.viewportDimension ?? 0;
-    final scrollPosition = _scrollableState?.position.pixels ?? 0;
-    final widgetTop = _position.dy;
-    final widgetBottom = widgetTop + _size.height;
-
-    // check direction of scroll to animate
-    bool isScrollingDown = _scrollableState?.position.userScrollDirection == ScrollDirection.reverse;
-    bool isScrollingUp = _scrollableState?.position.userScrollDirection == ScrollDirection.forward;
-    // Check if the widget is within the viewport
-    bool isInView = scrollPosition < widgetBottom && (scrollPosition + viewportDimension) > widgetTop;
-
-    // Handle animation based on visibility and scroll direction
+  /// Handle the animation
+  void _handleAnimation(VisibilityDetectorInfo info) {
     if (widget.useScrollForAnimation == true) {
-      // Use scroll value to drive animation
-      double progress = ((scrollPosition + viewportDimension - widgetTop) / viewportDimension).clamp(0.0, 1.0);
-      _animationController.value = progress;
+      _animateUsingScrollValue(info.visibleFraction);
     } else {
+      if (!_isInView && !info.visible) return;
+
       if (widget.repeat == true) {
-        if (isInView && !_isInView && isScrollingDown) {
-          _animate(isScrollingUp: false, isInView: isInView);
-        } else if (isInView && !_isInView && isScrollingUp) {
-          _animate(isScrollingUp: true, isInView: isInView);
+        if (info.canReverse && _animationController.status == AnimationStatus.completed) {
+          // reverse animation
+          // set duration to zero to make it faster
+          _animationController.duration = Duration.zero;
+          _animationController.reverse(from: 1.0);
+        } else if (info.visible && !_isAnimated) {
+          _animateWithoutScrollValue(info);
         }
       } else {
-        if (isInView && !_isInView) {
-          _animate(isInView: isInView);
+        if (info.visible && !_isAnimated) {
+          _animateWithoutScrollValue(info);
         }
       }
     }
+    _isInView = info.visible;
+  }
 
-    _isInView = isInView;
+  void _animateWithoutScrollValue(VisibilityDetectorInfo info) {
+    final delay = info.direction == ScrollDirection.reverse ? Duration.zero : widget.delay ?? Duration.zero;
+
+    Future.delayed(delay, () {
+      if (mounted && info.visible && !_isAnimated && info.direction != ScrollDirection.forward) {
+        _animationController.duration = _duration;
+        _animationController.forward(from: 0.0);
+      }
+    });
+  }
+
+  void _animateUsingScrollValue(double viewFraction) {
+    if (!mounted) return;
+
+    // Apply curve to the visible fraction
+    final curves = widget.curves ?? Curves.decelerate;
+    final curvedValue = curves.transform(viewFraction);
+
+    // Use spring simulation for smooth transitions
+    final simulation = SpringSimulation(
+      SpringDescription.withDampingRatio(
+        mass: 0.8,
+        stiffness: 300.0,
+        ratio: 0.6,
+      ),
+      _animationController.value,
+      curvedValue,
+      0,
+    );
+
+    _animationController.animateWith(simulation);
   }
 
   @override
   void dispose() {
-    _scrollableState?.position.removeListener(_onScroll);
+    _animationController.removeStatusListener(_handleAnimationStatus);
     _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        return widget.child;
+        return VisibilityDetector(
+          onVisibilityChanged: (info) {
+            _handleAnimation(info);
+          },
+          child: widget.child,
+        );
       },
     );
   }

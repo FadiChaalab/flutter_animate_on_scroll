@@ -27,3 +27,8 @@
 - Introduced BaseAnimationConfig and BaseTextAnimationConfig.
 - Fixed a bug (Looking up a deactivated widget's ancestor is unsafe).
 - Updated the README to reflect the new changes.
+
+## 0.3.0
+
+- Added a VisibilityDetector widget to detect widget visibility.
+- Fixed a bug (Couldn't implement KeyboardListener()).

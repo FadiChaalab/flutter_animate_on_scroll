@@ -131,7 +131,7 @@ class CustomAnimationExample extends StatefulWidget {
 }
 
 class _CustomAnimationExampleState extends State<CustomAnimationExample>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin{
   late AnimationController _animationController;
   late Animation<double> _animation;
 

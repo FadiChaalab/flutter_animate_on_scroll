@@ -12,25 +12,23 @@ class BasicExamples extends StatefulWidget {
 class _BasicExamplesState extends State<BasicExamples> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF030014),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Header
-            Header(),
-            SizedBox(height: 80),
-            // Banner Section
-            Banner(),
-            // Features Section
-            Features(),
-            // Showcase Section
-            Showcase(),
-            // Footer
-            SizedBox(height: 120),
-            Footer(),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: const Color(0xFF030014),
+      body: ListView(
+        children: const [
+          // Header
+          Header(),
+          SizedBox(height: 80),
+          // Banner Section
+          Banner(),
+          // Features Section
+          Features(),
+          // Showcase Section
+          Showcase(),
+          // Footer
+          SizedBox(height: 120),
+          Footer(),
+        ],
       ),
     );
   }
@@ -64,7 +62,6 @@ class Footer extends StatelessWidget {
               children: [
                 TextTyperAnimation(
                   config: BaseTextAnimationConfig(
-                    delay: 1.seconds,
                     text: 'Ready to get started?',
                     textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Colors.white,
@@ -75,9 +72,7 @@ class Footer extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 TextTyperAnimation(
-                  fade: true,
                   config: BaseTextAnimationConfig(
-                    delay: 2.seconds,
                     text: 'Start your free trial today. No credit card required.',
                     textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
                           color: const Color(0xFFEFEDFD).withValues(alpha: 0.7),
@@ -88,7 +83,6 @@ class Footer extends StatelessWidget {
                 const SizedBox(height: 16),
                 ZoomIn(
                   config: BaseAnimationConfig(
-                    delay: 3.seconds,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -236,6 +230,7 @@ class Showcase extends StatelessWidget {
           TextTyperAnimation(
             config: BaseTextAnimationConfig(
               text: 'Notes with an AI assistant',
+              repeat: true,
               textStyle: Theme.of(context).textTheme.displayLarge?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -247,6 +242,7 @@ class Showcase extends StatelessWidget {
           FadeIn(
             config: BaseAnimationConfig(
               delay: 3.seconds,
+              repeat: true,
               child: Text(
                 'Reflect uses GPT-4 and Whisper from OpenAI to improve your writing,\norganize your thoughts, and act as your intellectual thought partner.',
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
@@ -264,6 +260,7 @@ class Showcase extends StatelessWidget {
             child: TextTyperAnimation(
               config: BaseTextAnimationConfig(
                 duration: 2.seconds,
+                repeat: true,
                 text: 'What can you do with Reflect AI?',
                 textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.white,
@@ -274,15 +271,15 @@ class Showcase extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Wrap(
+          const Wrap(
             alignment: WrapAlignment.center,
             spacing: 20,
             runSpacing: 20,
             children: [
               ZoomIn(
                 config: BaseAnimationConfig(
-                  delay: 1.seconds,
-                  child: const ShowcaseCard(
+                  repeat: true,
+                  child: ShowcaseCard(
                     title: 'Transcribe voice notes',
                     description: 'with human-level accuracy',
                     icon: 'assets/icons/transcribe.svg',
@@ -291,8 +288,8 @@ class Showcase extends StatelessWidget {
               ),
               ZoomIn(
                 config: BaseAnimationConfig(
-                  delay: 2.seconds,
-                  child: const ShowcaseCard(
+                  repeat: true,
+                  child: ShowcaseCard(
                     title: 'Generate article outlines',
                     description: 'from your scattered thoughts',
                     icon: 'assets/icons/generate.svg',
@@ -301,8 +298,8 @@ class Showcase extends StatelessWidget {
               ),
               ZoomIn(
                 config: BaseAnimationConfig(
-                  delay: 3.seconds,
-                  child: const ShowcaseCard(
+                  repeat: true,
+                  child: ShowcaseCard(
                     title: 'List key takeaways and action',
                     description: 'items from your meeting notes',
                     icon: 'assets/icons/list.svg',
@@ -311,8 +308,8 @@ class Showcase extends StatelessWidget {
               ),
               ZoomIn(
                 config: BaseAnimationConfig(
-                  delay: 4.seconds,
-                  child: const ShowcaseCard(
+                  repeat: true,
+                  child: ShowcaseCard(
                     title: 'Fix grammar, spelling,',
                     description: 'and improve your writing',
                     icon: 'assets/icons/fix.svg',
@@ -321,8 +318,8 @@ class Showcase extends StatelessWidget {
               ),
               ZoomIn(
                 config: BaseAnimationConfig(
-                  delay: 5.seconds,
-                  child: const ShowcaseCard(
+                  repeat: true,
+                  child: ShowcaseCard(
                     title: 'Save your own',
                     description: 'custom prompts',
                     icon: 'assets/icons/save.svg',
@@ -390,7 +387,7 @@ class Features extends StatelessWidget {
       children: [
         ZoomIn(
           config: BaseAnimationConfig(
-            repeat: true,
+            useScrollForAnimation: true,
             duration: 1.seconds,
             child: const FeatureCard(
               title: 'Built for speed',
@@ -401,7 +398,7 @@ class Features extends StatelessWidget {
         ),
         const ZoomIn(
           config: BaseAnimationConfig(
-            repeat: true,
+            useScrollForAnimation: true,
             child: FeatureCard(
               title: 'Networked notes',
               description: 'Form a graph of ideas with backlinked notes',
@@ -411,7 +408,7 @@ class Features extends StatelessWidget {
         ),
         const ZoomIn(
           config: BaseAnimationConfig(
-            repeat: true,
+            useScrollForAnimation: true,
             child: FeatureCard(
               title: 'IOS App',
               description: 'Capture ideas on the go, online or offline',
@@ -421,7 +418,7 @@ class Features extends StatelessWidget {
         ),
         const ZoomIn(
           config: BaseAnimationConfig(
-            repeat: true,
+            useScrollForAnimation: true,
             child: FeatureCard(
               title: 'End-to-end encryption',
               description: 'Only you can access your notes',
@@ -431,7 +428,7 @@ class Features extends StatelessWidget {
         ),
         const ZoomIn(
           config: BaseAnimationConfig(
-            repeat: true,
+            useScrollForAnimation: true,
             child: FeatureCard(
               title: 'Calendar integration',
               description: 'Keep track of meetings and agendas',
@@ -441,7 +438,7 @@ class Features extends StatelessWidget {
         ),
         const ZoomIn(
           config: BaseAnimationConfig(
-            repeat: true,
+            useScrollForAnimation: true,
             child: FeatureCard(
               title: 'Publishing',
               description: 'Share anything you write with one click',
@@ -451,7 +448,7 @@ class Features extends StatelessWidget {
         ),
         const ZoomIn(
           config: BaseAnimationConfig(
-            repeat: true,
+            useScrollForAnimation: true,
             child: FeatureCard(
               title: 'Instant capture',
               description: 'Save snippets from your browser and Kindle',
@@ -461,7 +458,7 @@ class Features extends StatelessWidget {
         ),
         const ZoomIn(
           config: BaseAnimationConfig(
-            repeat: true,
+            useScrollForAnimation: true,
             child: FeatureCard(
               title: 'Frictionless search',
               description: 'Easily recall and index past notes and ideas',
@@ -598,6 +595,7 @@ class Banner extends StatelessWidget {
           ),
           Image.asset(
             'assets/images/banner.png',
+            height: 494,
           ),
         ],
       ),

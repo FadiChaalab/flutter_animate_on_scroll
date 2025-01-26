@@ -35,3 +35,20 @@ const double toRad = math.pi / 180.0;
 
 /// Shorthand to convert radians to Degrees. (multiply radians with this value)
 const double toDeg = 180.0 / math.pi;
+
+double getScrollbarHeight(ScrollableState? scrollableState) {
+  final scrollMetrics = scrollableState?.position;
+  if (scrollMetrics == null) return 0.0;
+
+  // Get viewport height (visible area)
+  final viewportHeight = scrollMetrics.viewportDimension;
+
+  // Get total scrollable content height
+  final contentHeight = scrollMetrics.maxScrollExtent + viewportHeight;
+
+  // Calculate scrollbar height as a proportion
+  final scrollbarHeight = (viewportHeight / contentHeight) * viewportHeight;
+
+  // Ensure minimum height for visibility
+  return math.max(scrollbarHeight, 40.0);
+}

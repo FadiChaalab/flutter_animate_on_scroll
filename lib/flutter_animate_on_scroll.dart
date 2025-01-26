@@ -8,3 +8,4 @@ export './src/widgets/slide/slide.dart';
 export './src/widgets/rotate/rotate.dart';
 export './src/widgets/zoom/zoom.dart';
 export './src/widgets/text/text.dart';
+export './src/helper/visisibility_detector.dart';
